@@ -15,11 +15,14 @@
         <v-btn flat color="primary" @Click="countStore.decrement">decrement</v-btn>
       </v-card-actions>
     </v-card>
+
   </v-container>
 </template>
 
 <script setup lang="ts">
+import { onMounted } from 'vue';
 import { useCounterStore } from '@/stores/counter';
 const countStore = useCounterStore();
+onMounted(countStore.getListEmployees)
 
 </script>
