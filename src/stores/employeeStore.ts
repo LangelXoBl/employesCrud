@@ -4,7 +4,7 @@ import { ref, type Ref } from "vue";
 import { getListEmployees } from "@/api/employee";
 const baseEmployee: IEmploye = {
     name: '',
-    lastName: '',
+    lastname: '',
     curp: '',
     rfc: '',
     email: '',

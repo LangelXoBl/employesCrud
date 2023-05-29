@@ -1,7 +1,7 @@
 export interface IEmploye {
     id?: number
     name: string
-    lastName: string
+    lastname: string
     curp: string
     rfc: string
     email: string
