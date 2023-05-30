@@ -1,10 +1,17 @@
-import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import { createRouter, createWebHistory } from 'vue-router'
+import EmployeeView from '@/views/EmployeeView.vue'
+import AssetsView from '@/views/AssetsView.vue'
 
-const routes: RouteRecordRaw[] = [{
+export const routes = [{
   path: '/',
-  name: 'home',
-  component: HomeView
+  name: 'Empleados',
+  icon: 'mdi-home',
+  component: EmployeeView
+}, {
+  path: '/asset',
+  name: 'Activos',
+  icon: 'mdi-information',
+  component: AssetsView
 }]
 
 const router = createRouter({

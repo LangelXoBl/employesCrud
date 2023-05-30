@@ -1,12 +1,8 @@
 <template>
-  <v-col cols="12" class="ma-4">
-    <v-row>
-      <v-btn prepend-icon="mdi-plus" color="green" class="mr-4">Agregar Empleado</v-btn>
-      <CreateAssetComponent />
-    </v-row>
-  </v-col>
-
-  <v-table class="mx-10">
+  <v-table class="ma-10">
+    <template v-slot:top>
+      <h1>Tabla de Empleados</h1>
+    </template>
     <thead>
       <tr>
         <th v-for="header in headers" :key="header" class="text-left">
@@ -32,7 +28,7 @@
 import { onMounted } from 'vue';
 import { useEmployeeStore } from '@/stores/employeeStore'
 // components
-import CreateAssetComponent from './Asset/CreateAssetComponent.vue';
+
 
 
 const employeeStore = useEmployeeStore()

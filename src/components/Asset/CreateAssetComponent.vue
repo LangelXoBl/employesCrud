@@ -1,7 +1,7 @@
 <template>
     <v-dialog v-model="assetStore.modalCreate" persistent width="1024">
         <template v-slot:activator="{ props }">
-            <v-btn v-bind="props" prepend-icon="mdi-plus" color="blue-grey">Agregar Activo</v-btn>
+            <v-btn v-bind="props" icon="mdi-office-building-plus" />
         </template>
         <FormAssetComponent />
     </v-dialog>
