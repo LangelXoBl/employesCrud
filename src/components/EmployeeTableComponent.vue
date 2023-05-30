@@ -2,7 +2,7 @@
   <v-col cols="12" class="ma-4">
     <v-row>
       <v-btn prepend-icon="mdi-plus" color="green" class="mr-4">Agregar Empleado</v-btn>
-      <v-btn prepend-icon="mdi-plus" color="blue-grey">Agregar Activo</v-btn>
+      <CreateAssetComponent />
     </v-row>
   </v-col>
 
@@ -21,7 +21,7 @@
         <td>{{ employee.curp }}</td>
         <td>{{ employee.rfc }}</td>
         <td>{{ employee.email }}</td>
-        <td>{{ employee.fechaNacimiento }}</td>
+        <td>{{ dateView(employee.fechaNacimiento) }}</td>
         <td><v-btn color="primary" icon="mdi-eye" size="small"></v-btn></td>
       </tr>
     </tbody>
@@ -31,10 +31,17 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
 import { useEmployeeStore } from '@/stores/employeeStore'
+// components
+import CreateAssetComponent from './Asset/CreateAssetComponent.vue';
+
 
 const employeeStore = useEmployeeStore()
 onMounted(employeeStore.fetchEmployees)
 
 const headers = ["Name", "LastName", "CURP", "RFC", "Email", "Fecha de Nacimiento", "Opciones"]
+
+const dateView = (date: Date): string => {
+  return new Date(date).toLocaleDateString()
+}
 
 </script>
