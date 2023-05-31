@@ -1,4 +1,4 @@
-const base: string = "https://localhost:7027/"
+const base: string = "http://www.apisoanet.somee.com/"
 
 async function conection(path: string, method?: string, body?: BodyInit): Promise<Response> {
     try {
