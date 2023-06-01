@@ -1,7 +1,7 @@
 <template>
-    <EmployeeTableComponent />
+  <EmployeeTableComponent />
 </template>
-  
+
 <script lang="ts" setup>
-import EmployeeTableComponent from '@/components/EmployeeTableComponent.vue';
+import EmployeeTableComponent from '@/components/EmployeeTableComponent.vue'
 </script>

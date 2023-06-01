@@ -28,17 +28,16 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue';
+import { onMounted } from 'vue'
 import { useEmployeeStore } from '@/stores/employeeStore'
 // components
-import FormEmployeeComponent from './Asset/FormEmployeeComponent.vue';
-import type { IEmploye } from '@/models/IEmploye';
-
+import FormEmployeeComponent from './Asset/FormEmployeeComponent.vue'
+import type { IEmploye } from '@/models/IEmploye'
 
 const employeeStore = useEmployeeStore()
 onMounted(employeeStore.fetchEmployees)
 
-const headers = ["Name", "LastName", "CURP", "RFC", "Email", "Fecha de Nacimiento", "Opciones"]
+const headers = ['Name', 'LastName', 'CURP', 'RFC', 'Email', 'Fecha de Nacimiento', 'Opciones']
 
 const dateView = (date: Date): string => {
   return new Date(date).toLocaleDateString()
@@ -47,7 +46,6 @@ const dateView = (date: Date): string => {
 const details = (employee: IEmploye) => {
   employeeStore.employee = employee //guardo actual
   employeeStore.fetchDetail //consulto detalles
-  employeeStore.formEmployee = true; //abro modal
+  employeeStore.formEmployee = true //abro modal
 }
-
 </script>
