@@ -1,7 +1,7 @@
 <template>
     <v-card>
         <v-card-title>
-            <span class="text-h5">Activo</span>
+            <span class="text-h5">Empleado</span>
         </v-card-title>
         <v-card-text>
             <v-container>
@@ -36,18 +36,19 @@
         </v-card-text>
         <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="blue-darken-1" variant="text" @click="assetStore.modalCreate = false">
+            <v-btn color="blue-darken-1" variant="text" @click="employeeStore.formEmployee = false">
                 Close
             </v-btn>
-            <v-btn color="blue-darken-1" variant="text" @click="assetStore.modalCreate = false">
+            <v-btn color="blue-darken-1" variant="text" @click="employeeStore.formEmployee = false">
                 Save
             </v-btn>
         </v-card-actions>
     </v-card>
 </template>
 <script setup lang="ts">
-import { useAssetStore } from '@/stores/asset'
+//import { useAssetStore } from '@/stores/asset'
+import { useEmployeeStore } from '@/stores/employeeStore';
 
-const assetStore = useAssetStore()
+const employeeStore = useEmployeeStore()
 
 </script>

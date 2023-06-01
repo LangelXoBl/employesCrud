@@ -18,17 +18,21 @@
         <td>{{ employee.rfc }}</td>
         <td>{{ employee.email }}</td>
         <td>{{ dateView(employee.fechaNacimiento) }}</td>
-        <td><v-btn color="primary" icon="mdi-eye" size="small"></v-btn></td>
+        <td><v-btn color="primary" icon="mdi-eye" size="small" @click="details"></v-btn></td>
       </tr>
     </tbody>
   </v-table>
+  <v-dialog v-model="employeeStore.formEmployee" persistent width="1024">
+    <FormEmployeeComponent></FormEmployeeComponent>
+  </v-dialog>
 </template>
 
 <script setup lang="ts">
 import { onMounted } from 'vue';
 import { useEmployeeStore } from '@/stores/employeeStore'
 // components
-
+import FormEmployeeComponent from './Asset/FormEmployeeComponent.vue';
+import type { IEmploye } from '@/models/IEmploye';
 
 
 const employeeStore = useEmployeeStore()
@@ -38,6 +42,12 @@ const headers = ["Name", "LastName", "CURP", "RFC", "Email", "Fecha de Nacimient
 
 const dateView = (date: Date): string => {
   return new Date(date).toLocaleDateString()
+}
+
+const details = (employee: IEmploye) => {
+  employeeStore.employee = employee //guardo actual
+  employeeStore.fetchDetail //consulto detalles
+  employeeStore.formEmployee = true; //abro modal
 }
 
 </script>
