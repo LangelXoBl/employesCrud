@@ -1,6 +1,6 @@
 import type { IEmploye } from '@/models/IEmploye'
 import conection from './api'
-import type { IAsignation } from '@/models/IAsignation'
+import { baseRegister, type IAsignation } from '@/models/IAsignation'
 
 const headers = new Headers()
 headers.append("Content-Type", "application/json")
@@ -16,14 +16,14 @@ export const getListEmployees = async (): Promise<IEmploye[]> => {
   }
 }
 
-export const getAsignation = async (id: number): Promise<IAsignation[]> => {
+export const getAsignation = async (id: number): Promise<IAsignation> => {
   try {
     const response = await conection(`Empleados/empleadosItemsById?id=${id}`)
     const json: IAsignation[] = await response.json()
-    return json
+    return json[0]
   } catch (error) {
     console.log(error)
-    return []
+    return baseRegister
   }
 }
 
@@ -40,3 +40,13 @@ export const createEmployee = async (employe: IEmploye) => {
 
 }
 
+
+export const freeAsset = async (status: boolean, id: number) => {
+  try {
+    const res = await conection(`api/items/StatusItem?status=${status}&id_item=${id}`, "PUT")
+    const json = await res.json()
+    console.log(json)
+  } catch (error) {
+    console.log(error)
+  }
+}

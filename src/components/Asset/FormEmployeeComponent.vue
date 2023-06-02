@@ -27,7 +27,6 @@
           <v-col cols="12" sm="6" md="4">
             <v-text-field
               label="CURP*"
-              hint="example of persisCtent helper text"
               persistent-hint
               required
               v-model="employee.curp"
@@ -36,7 +35,6 @@
           <v-col cols="12" sm="6" md="4">
             <v-text-field
               label="RFC*"
-              hint="example of persisCtent helper text"
               persistent-hint
               required
               v-model="employee.rfc"
@@ -50,7 +48,7 @@
           </v-col>
           <v-col cols="12" sm="6">
             <v-autocomplete
-              v-model="register[0].id_item"
+              v-model="register.id_item"
               :items="assetStore.assetList"
               label="Asiganar activo"
               item-title="nombreItem"
@@ -58,7 +56,29 @@
             ></v-autocomplete>
           </v-col>
         </v-row>
-        <template v-if="employeeStore.register.length > 0"> </template>
+        <template v-if="employeeStore.register.id">
+          <v-row>
+            <v-col>
+              <v-text-field
+                v-model="register.items!.nombreItem"
+                disabled
+                name="nombe"
+                label="descripcion"
+              ></v-text-field>
+            </v-col>
+            <v-col>
+              <v-text-field
+                v-model="register.items!.description"
+                disabled
+                name="nombe"
+                label="descripcion"
+              ></v-text-field>
+            </v-col>
+            <v-col>
+              <v-checkbox v-model="register.items!.status" @click="liberar"></v-checkbox>
+            </v-col>
+          </v-row>
+        </template>
         <p v-else>sin activos asignados</p>
       </v-container>
       <small>*indicates required field</small>
@@ -89,8 +109,13 @@ const close = () => {
 const save = async () => {
   // si no tien id se crea uno nuevo
   if (!employee.id) await employeeStore.newEmployee()
-  if (register[0].id_item == 0) employeeStore.newRegister()
+  // si tiene registro se crea uno nuevo
+  if (register.id_item) employeeStore.newRegister()
 
   employeeStore.formEmployee = false
+}
+
+const liberar = async () => {
+  employeeStore.liberarAsset()
 }
 </script>

@@ -11,3 +11,10 @@ export interface IAsignation {
   persona?: IEmploye
   items?: IAsset
 }
+
+export const baseRegister: IAsignation = {
+  id_item: 0,
+  id_persona: 0,
+  dia_asignacion: new Date(),
+  dia_entrega: new Date()
+}

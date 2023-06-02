@@ -39,6 +39,7 @@ import { useAssetStore } from '@/stores/asset'
 const assetStore = useAssetStore()
 
 const create = () => {
+  assetStore.asset.id = 0
   assetStore.newAsset()
   assetStore.modalCreate = false
 }

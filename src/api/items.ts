@@ -12,8 +12,8 @@ export const getListAssets = async (): Promise<IAsset[]> => {
   }
 }
 
-// const headers = new Headers()
-// headers.append("Content-Type", "application/json")
+const headers = new Headers()
+headers.append("Content-Type", "application/json")
 // headers.append("Accept", "*/*")
 // headers.append("Accept-Encoding", " gzip, deflate")
 // headers.append("Accept-Language", "es-419,es;q=0.9")
