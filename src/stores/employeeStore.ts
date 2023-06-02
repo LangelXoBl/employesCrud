@@ -33,5 +33,9 @@ export const useEmployeeStore = defineStore('employee', () => {
     await createEmployee(employee.value)
   }
 
-  return { formEmployee, employee, register, employeeList, fetchEmployees, fetchDetail, newEmployee }
+  async function newRegister() {
+
+  }
+
+  return { formEmployee, employee, register, employeeList, fetchEmployees, fetchDetail, newEmployee, newRegister }
 })

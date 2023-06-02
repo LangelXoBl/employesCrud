@@ -6,7 +6,7 @@ type methodsHTTP = "POST" | "GET" | "PUT" | "PATCH" | "DELETE"
 async function conection(path: string, method?: methodsHTTP, body?: BodyInit, headers?: Headers): Promise<Response> {
   try {
     console.log(headers)
-    const data = await fetch(`${base + path}`, { method: method, body: body, headers })
+    const data = await fetch(`${base + path}`, { method: method, body: body })
     return data
   } catch (error) {
     throw new Error(`Error en ruta ${path}: ${error}`)

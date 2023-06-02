@@ -66,9 +66,7 @@
     <v-card-actions>
       <v-spacer></v-spacer>
       <v-btn color="blue-darken-1" variant="text" @click="close"> Close </v-btn>
-      <v-btn color="blue-darken-1" variant="text" @click="employeeStore.formEmployee = false">
-        Save
-      </v-btn>
+      <v-btn color="blue-darken-1" variant="text" @click="save"> Save </v-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -85,6 +83,14 @@ let register = employeeStore.register
 
 const close = () => {
   employeeStore.employee = baseEmployee
+  employeeStore.formEmployee = false
+}
+
+const save = async () => {
+  // si no tien id se crea uno nuevo
+  if (!employee.id) await employeeStore.newEmployee()
+  if (register[0].id_item == 0) employeeStore.newRegister()
+
   employeeStore.formEmployee = false
 }
 </script>
