@@ -7,47 +7,18 @@
       <v-container>
         <v-row>
           <v-col cols="12" sm="6" md="4">
-            <v-text-field label="Legal first name*" required></v-text-field>
-          </v-col>
-          <v-col cols="12" sm="6" md="4">
             <v-text-field
-              label="Legal middle name"
-              hint="example of helper text only on focus"
-            ></v-text-field>
-          </v-col>
-          <v-col cols="12" sm="6" md="4">
-            <v-text-field
-              label="Legal last name*"
-              hint="example of persistent helper text"
-              persistent-hint
+              label="Nombre*"
+              v-model="assetStore.asset.nombreItem"
               required
             ></v-text-field>
           </v-col>
-          <v-col cols="12">
-            <v-text-field label="Email*" required></v-text-field>
-          </v-col>
-          <v-col cols="12">
-            <v-text-field label="Password*" type="password" required></v-text-field>
-          </v-col>
-          <v-col cols="12" sm="6">
-            <v-select :items="['0-17', '18-29', '30-54', '54+']" label="Age*" required></v-select>
-          </v-col>
-          <v-col cols="12" sm="6">
-            <v-autocomplete
-              :items="[
-                'Skiing',
-                'Ice hockey',
-                'Soccer',
-                'Basketball',
-                'Hockey',
-                'Reading',
-                'Writing',
-                'Coding',
-                'Basejump'
-              ]"
-              label="Interests"
-              multiple
-            ></v-autocomplete>
+          <v-col cols="12" sm="6" md="8">
+            <v-text-field
+              label="Descripcion"
+              v-model="assetStore.asset.description"
+              hint="example of helper text only on focus"
+            ></v-text-field>
           </v-col>
         </v-row>
       </v-container>
@@ -58,9 +29,7 @@
       <v-btn color="blue-darken-1" variant="text" @click="assetStore.modalCreate = false">
         Close
       </v-btn>
-      <v-btn color="blue-darken-1" variant="text" @click="assetStore.modalCreate = false">
-        Save
-      </v-btn>
+      <v-btn color="blue-darken-1" variant="text" @click="create"> Save </v-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -68,4 +37,9 @@
 import { useAssetStore } from '@/stores/asset'
 
 const assetStore = useAssetStore()
+
+const create = () => {
+  assetStore.newAsset()
+  assetStore.modalCreate = false
+}
 </script>

@@ -1,6 +1,6 @@
 import { ref, type Ref } from 'vue'
 import { defineStore } from 'pinia'
-import { getListAssets } from '@/api/items'
+import { getListAssets, createAsset } from '@/api/items'
 import { baseAsset, type IAsset } from '@/models/IAsset'
 
 export const useAssetStore = defineStore('asset', () => {
@@ -14,5 +14,10 @@ export const useAssetStore = defineStore('asset', () => {
     assetList.value = await getListAssets()
   }
 
-  return { asset, assetList, modalCreate, fetchAssets }
+
+  async function newAsset() {
+    await createAsset(asset.value)
+  }
+
+  return { asset, assetList, modalCreate, fetchAssets, newAsset }
 })

@@ -18,7 +18,9 @@
         <td>{{ employee.rfc }}</td>
         <td>{{ employee.email }}</td>
         <td>{{ dateView(employee.fechaNacimiento) }}</td>
-        <td><v-btn color="primary" icon="mdi-eye" size="small" @click="details(employee)"></v-btn></td>
+        <td>
+          <v-btn color="primary" icon="mdi-eye" size="small" @click="details(employee)"></v-btn>
+        </td>
       </tr>
     </tbody>
   </v-table>
@@ -30,16 +32,21 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
 import { useEmployeeStore } from '@/stores/employeeStore'
+import { useAssetStore } from '@/stores/asset'
 // components
 import FormEmployeeComponent from './Asset/FormEmployeeComponent.vue'
 import type { IEmploye } from '@/models/IEmploye'
 
 const employeeStore = useEmployeeStore()
-onMounted(employeeStore.fetchEmployees)
+const assetStore = useAssetStore()
+
+onMounted(() => {
+  employeeStore.fetchEmployees(), assetStore.fetchAssets()
+})
 
 const headers = ['Name', 'LastName', 'CURP', 'RFC', 'Email', 'Fecha de Nacimiento', 'Opciones']
 
-const dateView = (date: Date): string => {
+const dateView = (date: string): string => {
   return new Date(date).toLocaleDateString()
 }
 

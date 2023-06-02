@@ -6,59 +6,66 @@
     <v-card-text>
       <v-container>
         <v-row>
-          <v-col cols="12" sm="6" md="4">
-            <v-text-field label="Name*" required v-model="employee.name"></v-text-field>
+          <v-col cols="12" sm="6" md="5">
+            <v-text-field label="Nombre*" required v-model="employee.name"></v-text-field>
           </v-col>
-          <v-col cols="12" sm="6" md="4">
+          <v-col cols="12" sm="6" md="5">
             <v-text-field
-              label="LastName"
+              label="Apelldos"
               hint="example of helper text only on focus"
               v-model="employee.lastname"
             ></v-text-field>
           </v-col>
+          <v-col cols="12" sm="6" md="2">
+            <v-text-field
+              label="N° Empleado*"
+              persistent-hint
+              required
+              v-model="employee.numero_empleado"
+            ></v-text-field>
+          </v-col>
           <v-col cols="12" sm="6" md="4">
             <v-text-field
-              label="Legal last name*"
+              label="CURP*"
               hint="example of persisCtent helper text"
               persistent-hint
               required
+              v-model="employee.curp"
             ></v-text-field>
           </v-col>
-          <v-col cols="12">
-            <v-text-field label="Email*" required></v-text-field>
+          <v-col cols="12" sm="6" md="4">
+            <v-text-field
+              label="RFC*"
+              hint="example of persisCtent helper text"
+              persistent-hint
+              required
+              v-model="employee.rfc"
+            ></v-text-field>
+          </v-col>
+          <v-col cols="12" sm="6" md="4">
+            <v-text-field v-model="employee.fechaNacimiento" label="Date"></v-text-field>
           </v-col>
           <v-col cols="12">
-            <v-text-field label="Password*" type="password" required></v-text-field>
-          </v-col>
-          <v-col cols="12" sm="6">
-            <v-select :items="['0-17', '18-29', '30-54', '54+']" label="Age*" required></v-select>
+            <v-text-field label="Email*" v-model="employee.email" required></v-text-field>
           </v-col>
           <v-col cols="12" sm="6">
             <v-autocomplete
-              :items="[
-                'Skiing',
-                'Ice hockey',
-                'Soccer',
-                'Basketball',
-                'Hockey',
-                'Reading',
-                'Writing',
-                'Coding',
-                'Basejump'
-              ]"
-              label="Interests"
-              multiple
+              v-model="register[0].id_item"
+              :items="assetStore.assetList"
+              label="Asiganar activo"
+              item-title="nombreItem"
+              item-value="id"
             ></v-autocomplete>
           </v-col>
         </v-row>
+        <template v-if="employeeStore.register.length > 0"> </template>
+        <p v-else>sin activos asignados</p>
       </v-container>
       <small>*indicates required field</small>
     </v-card-text>
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-btn color="blue-darken-1" variant="text" @click="employeeStore.formEmployee = false">
-        Close
-      </v-btn>
+      <v-btn color="blue-darken-1" variant="text" @click="close"> Close </v-btn>
       <v-btn color="blue-darken-1" variant="text" @click="employeeStore.formEmployee = false">
         Save
       </v-btn>
@@ -67,9 +74,17 @@
 </template>
 <script setup lang="ts">
 //import { useAssetStore } from '@/stores/asset'
-import { useEmployeeStore } from '@/stores/employeeStore'
+import { baseEmployee, useEmployeeStore } from '@/stores/employeeStore'
+import { useAssetStore } from '@/stores/asset'
 
 const employeeStore = useEmployeeStore()
+const assetStore = useAssetStore()
 
-let employee = Object.assign({}, employeeStore.employee)
+let employee = employeeStore.employee
+let register = employeeStore.register
+
+const close = () => {
+  employeeStore.employee = baseEmployee
+  employeeStore.formEmployee = false
+}
 </script>

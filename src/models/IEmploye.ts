@@ -6,5 +6,5 @@ export interface IEmploye {
   rfc: string
   email: string
   numero_empleado?: number
-  fechaNacimiento: Date
+  fechaNacimiento: string
 }

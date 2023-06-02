@@ -15,20 +15,17 @@
         <td>{{ asset.nombreItem }}</td>
         <td>{{ asset.description }}</td>
         <td><v-checkbox v-model="asset.status" @click="console.log(asset.id)"></v-checkbox></td>
-        <td>
+        <!-- <td>
           <v-btn
             color="primary"
             icon="mdi-eye"
             size="small"
             @click="assetStore.modalCreate = true"
           ></v-btn>
-        </td>
+        </td> -->
       </tr>
     </tbody>
   </v-table>
-  <v-dialog v-model="assetStore.modalCreate" persistent width="1024">
-    <FormAssetComponent />
-  </v-dialog>
 </template>
 
 <script setup lang="ts">
@@ -36,7 +33,6 @@ import { onMounted } from 'vue'
 //import { useEmployeeStore } from '@/stores/employeeStore'
 import { useAssetStore } from '@/stores/asset'
 // components
-import FormAssetComponent from './Asset/FormAssetComponent.vue'
 
 const assetStore = useAssetStore()
 onMounted(assetStore.fetchAssets)
