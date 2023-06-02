@@ -18,7 +18,7 @@
         <td>{{ employee.rfc }}</td>
         <td>{{ employee.email }}</td>
         <td>{{ dateView(employee.fechaNacimiento) }}</td>
-        <td><v-btn color="primary" icon="mdi-eye" size="small" @click="details"></v-btn></td>
+        <td><v-btn color="primary" icon="mdi-eye" size="small" @click="details(employee)"></v-btn></td>
       </tr>
     </tbody>
   </v-table>
@@ -45,7 +45,7 @@ const dateView = (date: Date): string => {
 
 const details = (employee: IEmploye) => {
   employeeStore.employee = employee //guardo actual
-  employeeStore.fetchDetail //consulto detalles
+  employeeStore.fetchDetail() //consulto detalles
   employeeStore.formEmployee = true //abro modal
 }
 </script>

@@ -7,18 +7,19 @@
       <v-container>
         <v-row>
           <v-col cols="12" sm="6" md="4">
-            <v-text-field label="Legal first name*" required></v-text-field>
+            <v-text-field label="Name*" required v-model="employee.name"></v-text-field>
           </v-col>
           <v-col cols="12" sm="6" md="4">
             <v-text-field
-              label="Legal middle name"
+              label="LastName"
               hint="example of helper text only on focus"
+              v-model="employee.lastname"
             ></v-text-field>
           </v-col>
           <v-col cols="12" sm="6" md="4">
             <v-text-field
               label="Legal last name*"
-              hint="example of persistent helper text"
+              hint="example of persisCtent helper text"
               persistent-hint
               required
             ></v-text-field>
@@ -69,4 +70,6 @@
 import { useEmployeeStore } from '@/stores/employeeStore'
 
 const employeeStore = useEmployeeStore()
+
+let employee = Object.assign({}, employeeStore.employee)
 </script>
