@@ -6,13 +6,13 @@ export const routes = [
   {
     path: '/',
     name: 'Empleados',
-    icon: 'mdi-home',
+    icon: 'mdi-account',
     component: EmployeeView
   },
   {
     path: '/asset',
     name: 'Activos',
-    icon: 'mdi-information',
+    icon: 'mdi-office-building',
     component: AssetsView
   }
 ]

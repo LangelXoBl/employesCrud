@@ -13,7 +13,7 @@
     <FormAssetComponent />
   </v-dialog>
 
-  <v-dialog v-model="employeeStore.formEmployee" persistent width="1024">
+  <v-dialog v-model="employeeStore.formEmployee.status" persistent width="1024">
     <FormEmployeeComponent />
   </v-dialog>
 </template>

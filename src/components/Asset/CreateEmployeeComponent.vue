@@ -1,9 +1,13 @@
 <template>
-  <v-btn @click="employeeStore.formEmployee = true" icon="mdi-account-plus" />
+  <v-btn @click="openModal" icon="mdi-account-plus" />
 </template>
 <script setup lang="ts">
-import { useEmployeeStore } from '@/stores/employeeStore'
+import { TypesForm, baseEmployee, useEmployeeStore } from '@/stores/employeeStore'
 // Components
 
 const employeeStore = useEmployeeStore()
+
+const openModal = () => {
+  employeeStore.openForm(baseEmployee, TypesForm.Create)
+}
 </script>

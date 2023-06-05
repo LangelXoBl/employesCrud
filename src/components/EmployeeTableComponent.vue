@@ -24,17 +24,17 @@
       </tr>
     </tbody>
   </v-table>
-  <v-dialog v-model="employeeStore.formEmployee" persistent width="1024">
-    <FormEmployeeComponent></FormEmployeeComponent>
-  </v-dialog>
+  <!-- <v-dialog v-model="employeeStore.formEmployee" persistent width="1024">
+    <FormEmployeeComponent :use="'edit'"></FormEmployeeComponent>
+  </v-dialog> -->
 </template>
 
 <script setup lang="ts">
 import { onMounted } from 'vue'
-import { useEmployeeStore } from '@/stores/employeeStore'
+import { TypesForm, useEmployeeStore } from '@/stores/employeeStore'
 import { useAssetStore } from '@/stores/asset'
 // components
-import FormEmployeeComponent from './Asset/FormEmployeeComponent.vue'
+//import FormEmployeeComponent from './Asset/FormEmployeeComponent.vue'
 import type { IEmploye } from '@/models/IEmploye'
 
 const employeeStore = useEmployeeStore()
@@ -51,8 +51,7 @@ const dateView = (date: string): string => {
 }
 
 const details = (employee: IEmploye) => {
-  employeeStore.employee = employee //guardo actual
-  employeeStore.fetchDetail() //consulto detalles
-  employeeStore.formEmployee = true //abro modal
+  //employeeStore.fetchDetail() //consulto detalles
+  employeeStore.openForm(employee, TypesForm.Edit) //abro modal
 }
 </script>

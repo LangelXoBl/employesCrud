@@ -18,6 +18,7 @@ export const getListEmployees = async (): Promise<IEmploye[]> => {
 
 export const getAsignation = async (id: number): Promise<IAsignation> => {
   try {
+    console.log("assi")
     const response = await conection(`Empleados/empleadosItemsById?id=${id}`)
     const json: IAsignation[] = await response.json()
     return json[0]
@@ -27,15 +28,18 @@ export const getAsignation = async (id: number): Promise<IAsignation> => {
   }
 }
 
-export const createEmployee = async (employe: IEmploye) => {
-
+export const createEmployee = async (employe: IEmploye): Promise<boolean> => {
   try {
     const body = JSON.stringify(employe)
-    const response = await conection('Empleador/create', 'POST', body)
-    const json = await response.json()
-    console.log(json)
+    const response = await conection('Empleados/create', 'POST', body, headers)
+    //if(response.headers.get("Content-Type") === "text/plain; charset=utf-8")
+    console.log(response.status)
+    if (response.status > 200 && response.status < 300)
+      return true
+    return false
   } catch (error) {
     console.log("error al crear", error)
+    return false
   }
 
 }

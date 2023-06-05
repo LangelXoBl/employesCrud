@@ -46,9 +46,8 @@
           <v-col cols="12">
             <v-text-field label="Email*" v-model="employee.email" required></v-text-field>
           </v-col>
-          <v-col cols="12" sm="6">
+          <v-col cols="12" sm="6" v-if="show(TypesForm.Edit)">
             <v-autocomplete
-              v-model="register.id_item"
               :items="assetStore.assetList"
               label="Asiganar activo"
               item-title="nombreItem"
@@ -56,7 +55,8 @@
             ></v-autocomplete>
           </v-col>
         </v-row>
-        <template v-if="employeeStore.register.id">
+        <!-- <template v-if="employeeStore.register.id == 0"> -->
+        <!-- <template v-if="props.use == 'edit'">
           <v-row>
             <v-col>
               <v-text-field
@@ -79,43 +79,65 @@
             </v-col>
           </v-row>
         </template>
-        <p v-else>sin activos asignados</p>
+        <p v-else>sin activos asignados</p> -->
+        <p>{{ employeeStore.formEmployee.type }}</p>
       </v-container>
       <small>*indicates required field</small>
     </v-card-text>
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-btn color="blue-darken-1" variant="text" @click="close"> Close </v-btn>
-      <v-btn color="blue-darken-1" variant="text" @click="save"> Save </v-btn>
+      <v-btn color="blue-darken-1" variant="text" @click="employeeStore.closeForm"> Cerrar </v-btn>
+      <v-btn color="blue-darken-1" variant="text" @click="create"> Crear </v-btn>
     </v-card-actions>
   </v-card>
 </template>
 <script setup lang="ts">
 //import { useAssetStore } from '@/stores/asset'
-import { baseEmployee, useEmployeeStore } from '@/stores/employeeStore'
+import { baseEmployee, useEmployeeStore, type TypeForm, TypesForm } from '@/stores/employeeStore'
 import { useAssetStore } from '@/stores/asset'
+import type { IEmploye } from '@/models/IEmploye'
+import { ref, type Ref } from 'vue'
 
+//type typeForm = 'create' | 'edit'
+
+// interface Props {
+//   use: typeForm
+// }
+
+// props
+//const props = withDefaults(defineProps<Props>(), { use: 'edit' })
+
+// stores
 const employeeStore = useEmployeeStore()
 const assetStore = useAssetStore()
 
-let employee = employeeStore.employee
+// data
+// con esto se rompe la referencia y se hace dinamico empleoyee
+const employee: Ref<IEmploye> = ref(JSON.parse(JSON.stringify(employeeStore.employee)))
+//let employee = employeeStore.employee
 let register = employeeStore.register
 
-const close = () => {
-  employeeStore.employee = baseEmployee
-  employeeStore.formEmployee = false
-}
+// methods
 
+const create = async () => {
+  employeeStore.employee = employee.value
+  await employeeStore.newEmployee()
+  employeeStore.closeForm()
+}
 const save = async () => {
   // si no tien id se crea uno nuevo
-  if (!employee.id) await employeeStore.newEmployee()
+  //if (!employee.id) await employeeStore.newEmployee()
   // si tiene registro se crea uno nuevo
   if (register.id_item) employeeStore.newRegister()
 
-  employeeStore.formEmployee = false
+  employeeStore.formEmployee.status = false
 }
 
 const liberar = async () => {
   employeeStore.liberarAsset()
+}
+
+const show = (type: TypeForm) => {
+  return employeeStore.formEmployee.type === type
 }
 </script>

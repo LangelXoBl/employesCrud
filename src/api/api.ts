@@ -1,12 +1,12 @@
-const base: string = 'http://www.apisoanet.somee.com/'
+//const base: string = 'https://www.apisoanet.somee.com/'
+const base: string = 'https://localhost:7027/'
 type methodsHTTP = "POST" | "GET" | "PUT" | "PATCH" | "DELETE"
 //const headers = new Headers()
 //headers.append("Content-Type", "application/json")
 
 async function conection(path: string, method?: methodsHTTP, body?: BodyInit, headers?: Headers): Promise<Response> {
   try {
-    console.log("headers", headers)
-    const data = await fetch(`${base + path}`, { method: method, body: body })
+    const data = await fetch(`${base + path}`, { method: method, body: body, headers })
     return data
   } catch (error) {
     throw new Error(`Error en ruta ${path}: ${error}`)
