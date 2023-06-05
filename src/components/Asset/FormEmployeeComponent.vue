@@ -46,13 +46,19 @@
           <v-col cols="12">
             <v-text-field label="Email*" v-model="employee.email" required></v-text-field>
           </v-col>
+
+          <v-col cols="12"> <v-card-subtitle> Asignar activo </v-card-subtitle></v-col>
           <v-col cols="12" sm="6" v-if="show(TypesForm.Edit)">
             <v-autocomplete
+              v-model="asset"
               :items="assetStore.assetList"
-              label="Asiganar activo"
+              label="Activos"
               item-title="nombreItem"
               item-value="id"
             ></v-autocomplete>
+          </v-col>
+          <v-col sm="6">
+            <v-text-field label="Devolucion*" type="date" v-model="date" required></v-text-field>
           </v-col>
         </v-row>
         <!-- <template v-if="employeeStore.register.id == 0"> -->
@@ -87,7 +93,10 @@
     <v-card-actions>
       <v-spacer></v-spacer>
       <v-btn color="blue-darken-1" variant="text" @click="employeeStore.closeForm"> Cerrar </v-btn>
-      <v-btn color="blue-darken-1" variant="text" @click="create"> Crear </v-btn>
+      <v-btn v-if="show(TypesForm.Create)" color="blue-darken-1" variant="text" @click="create">
+        Crear
+      </v-btn>
+      <v-btn v-else color="success" @click="edit">Guardar</v-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -97,7 +106,9 @@ import { useEmployeeStore } from '@/stores/employeeStore'
 import { useAssetStore } from '@/stores/asset'
 import { TypesForm, type IEmploye, type TypeForm } from '@/models/IEmploye'
 import { ref, type Ref } from 'vue'
-
+import { computed } from 'vue'
+import { watch } from 'vue'
+import { type IAsignation } from '@/models/IAsignation'
 //type typeForm = 'create' | 'edit'
 TypesForm
 // interface Props {
@@ -115,7 +126,10 @@ const assetStore = useAssetStore()
 // con esto se rompe la referencia y se hace dinamico empleoyee
 const employee: Ref<IEmploye> = ref(JSON.parse(JSON.stringify(employeeStore.employee)))
 //let employee = employeeStore.employee
-let register = employeeStore.register
+let asignation = employeeStore.asignation
+const asset: Ref<number | null> = ref(null)
+const date = ref('')
+//const asignation:Ref<IAsignation|undefined > = ref()
 
 // methods
 
@@ -124,13 +138,21 @@ const create = async () => {
   await employeeStore.newEmployee()
   employeeStore.closeForm()
 }
-const save = async () => {
-  // si no tien id se crea uno nuevo
-  //if (!employee.id) await employeeStore.newEmployee()
-  // si tiene registro se crea uno nuevo
-  if (register.id_item) employeeStore.newRegister()
-
-  employeeStore.formEmployee.status = false
+const edit = async () => {
+  if (asset.value && asset.value > 0)
+    employeeStore.asignation = {
+      itemId: asset.value,
+      id_persona: employee.value.id!,
+      dia_asignacion: new Date(),
+      dia_entrega: new Date(date.value),
+      dia_liberacion: new Date(date.value)
+    }
+  if (employeeStore.asignation.itemId)
+    // si no tien id se crea uno nuevo
+    //if (!employee.id) await employeeStore.newEmployee()
+    // si tiene registro se crea uno nuevo
+    employeeStore.newRegister()
+  employeeStore.closeForm()
 }
 
 const liberar = async () => {
@@ -140,4 +162,8 @@ const liberar = async () => {
 const show = (type: TypeForm) => {
   return employeeStore.formEmployee.type === type
 }
+
+watch(date, (value) => {
+  console.log(value)
+})
 </script>

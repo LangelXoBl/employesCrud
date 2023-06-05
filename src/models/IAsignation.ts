@@ -4,7 +4,7 @@ import type { IEmploye } from './IEmploye'
 export interface IAsignation {
   id?: number
   id_persona: number
-  id_item: number
+  itemId: number
   dia_asignacion: Date
   dia_entrega: Date
   dia_liberacion?: Date
@@ -12,8 +12,8 @@ export interface IAsignation {
   items?: IAsset
 }
 
-export const baseRegister: IAsignation = {
-  id_item: 0,
+export const baseAsignation: IAsignation = {
+  itemId: 0,
   id_persona: 0,
   dia_asignacion: new Date(),
   dia_entrega: new Date()

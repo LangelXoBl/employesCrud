@@ -1,5 +1,4 @@
-//const base = import.meta.env.VITE_API_URL
-const base = import.meta.env.VITE_API_URL_LOCAL
+const base = import.meta.env.VITE_API_URL
 
 type methodsHTTP = 'POST' | 'GET' | 'PUT' | 'PATCH' | 'DELETE'
 

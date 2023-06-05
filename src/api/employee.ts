@@ -1,6 +1,6 @@
 import type { IEmploye } from '@/models/IEmploye'
 import conection from './api'
-import { baseRegister, type IAsignation } from '@/models/IAsignation'
+import { baseAsignation, type IAsignation } from '@/models/IAsignation'
 
 const headers = new Headers()
 headers.append('Content-Type', 'application/json')
@@ -23,7 +23,7 @@ export const getAsignation = async (id: number): Promise<IAsignation> => {
     return json[0]
   } catch (error) {
     console.log(error)
-    return baseRegister
+    return baseAsignation
   }
 }
 
@@ -38,6 +38,17 @@ export const createEmployee = async (employe: IEmploye): Promise<boolean> => {
   } catch (error) {
     console.log('error al crear', error)
     return false
+  }
+}
+
+export const createAsignation = async (asignation: IAsignation) => {
+  try {
+    const body = JSON.stringify(asignation)
+    console.log(body)
+    const res = await conection('api/items/asignar', 'POST', body, headers)
+    const json = res.json()
+  } catch (error) {
+    console.log(error)
   }
 }
 

@@ -8,13 +8,19 @@ import {
   type TypeForm
 } from '@/models/IEmploye'
 import { ref, type Ref } from 'vue'
-import { createEmployee, freeAsset, getAsignation, getListEmployees } from '@/api/employee'
-import { baseRegister, type IAsignation } from '@/models/IAsignation'
+import {
+  createAsignation,
+  createEmployee,
+  freeAsset,
+  getAsignation,
+  getListEmployees
+} from '@/api/employee'
+import { baseAsignation, type IAsignation } from '@/models/IAsignation'
 
 export const useEmployeeStore = defineStore('employee', () => {
   //  State
   const employee: Ref<IEmploye> = ref(baseEmployee)
-  const register: Ref<IAsignation> = ref(baseRegister)
+  const asignation: Ref<IAsignation> = ref(baseAsignation)
   const employeeList: Ref<IEmploye[]> = ref([])
   const formEmployee: Ref<IForm> = ref(baseFormEmployee)
 
@@ -36,7 +42,7 @@ export const useEmployeeStore = defineStore('employee', () => {
   }
 
   async function fetchDetail() {
-    register.value = await getAsignation(employee.value.id!)
+    asignation.value = await getAsignation(employee.value.id!)
   }
 
   async function newEmployee() {
@@ -46,16 +52,18 @@ export const useEmployeeStore = defineStore('employee', () => {
     if (status) fetchEmployees()
   }
 
-  async function newRegister() {}
+  async function newRegister() {
+    await createAsignation(asignation.value)
+  }
 
   async function liberarAsset() {
-    await freeAsset(!register.value.items!.status, register.value.items!.id!)
+    await freeAsset(!asignation.value.items!.status, asignation.value.items!.id!)
   }
 
   return {
     formEmployee,
     employee,
-    register,
+    asignation,
     employeeList,
     fetchEmployees,
     fetchDetail,

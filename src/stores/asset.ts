@@ -16,6 +16,7 @@ export const useAssetStore = defineStore('asset', () => {
 
   async function newAsset() {
     await createAsset(asset.value)
+    fetchAssets()
   }
 
   return { asset, assetList, modalCreate, fetchAssets, newAsset }
