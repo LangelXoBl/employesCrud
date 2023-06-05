@@ -14,7 +14,6 @@ export const useAssetStore = defineStore('asset', () => {
     assetList.value = await getListAssets()
   }
 
-
   async function newAsset() {
     await createAsset(asset.value)
   }

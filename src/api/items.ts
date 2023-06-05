@@ -13,9 +13,7 @@ export const getListAssets = async (): Promise<IAsset[]> => {
 }
 
 const headers = new Headers()
-headers.append("Content-Type", "application/json")
-
-
+headers.append('Content-Type', 'application/json')
 
 export const createAsset = async (asset: IAsset) => {
   try {
@@ -26,10 +24,10 @@ export const createAsset = async (asset: IAsset) => {
       status: asset.status
     }
     const body = JSON.stringify(data)
-    const response = await conection("api/items/create", "POST", body, headers)
+    const response = await conection('api/items/create', 'POST', body, headers)
     console.log(await response.body)
     const json = await response.json()
-    console.log(json);
+    console.log(json)
   } catch (error) {
     console.log(error)
   }

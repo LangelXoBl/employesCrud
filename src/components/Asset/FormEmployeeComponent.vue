@@ -93,13 +93,13 @@
 </template>
 <script setup lang="ts">
 //import { useAssetStore } from '@/stores/asset'
-import { baseEmployee, useEmployeeStore, type TypeForm, TypesForm } from '@/stores/employeeStore'
+import { useEmployeeStore } from '@/stores/employeeStore'
 import { useAssetStore } from '@/stores/asset'
-import type { IEmploye } from '@/models/IEmploye'
+import { TypesForm, type IEmploye, type TypeForm } from '@/models/IEmploye'
 import { ref, type Ref } from 'vue'
 
 //type typeForm = 'create' | 'edit'
-
+TypesForm
 // interface Props {
 //   use: typeForm
 // }

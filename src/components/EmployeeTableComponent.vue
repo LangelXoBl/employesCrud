@@ -31,11 +31,11 @@
 
 <script setup lang="ts">
 import { onMounted } from 'vue'
-import { TypesForm, useEmployeeStore } from '@/stores/employeeStore'
+import { useEmployeeStore } from '@/stores/employeeStore'
 import { useAssetStore } from '@/stores/asset'
 // components
 //import FormEmployeeComponent from './Asset/FormEmployeeComponent.vue'
-import type { IEmploye } from '@/models/IEmploye'
+import { TypesForm, type IEmploye } from '@/models/IEmploye'
 
 const employeeStore = useEmployeeStore()
 const assetStore = useAssetStore()
@@ -51,7 +51,6 @@ const dateView = (date: string): string => {
 }
 
 const details = (employee: IEmploye) => {
-  //employeeStore.fetchDetail() //consulto detalles
   employeeStore.openForm(employee, TypesForm.Edit) //abro modal
 }
 </script>
