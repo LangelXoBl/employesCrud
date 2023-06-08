@@ -11,7 +11,7 @@ import { ref, type Ref } from 'vue'
 import {
   createAsignation,
   createEmployee,
-  freeAsset,
+  changeItemStatus,
   getAsignation,
   getListEmployees
 } from '@/api/employee'
@@ -23,6 +23,7 @@ export const useEmployeeStore = defineStore('employee', () => {
   const asignation: Ref<IAsignation> = ref(baseAsignation)
   const employeeList: Ref<IEmploye[]> = ref([])
   const formEmployee: Ref<IForm> = ref(baseFormEmployee)
+  const loadingDetail: Ref<boolean> = ref(false)
 
   // getters
 
@@ -42,7 +43,9 @@ export const useEmployeeStore = defineStore('employee', () => {
   }
 
   async function fetchDetail() {
+    loadingDetail.value = true
     asignation.value = await getAsignation(employee.value.id!)
+    loadingDetail.value = false
   }
 
   async function newEmployee() {
@@ -57,7 +60,7 @@ export const useEmployeeStore = defineStore('employee', () => {
   }
 
   async function liberarAsset() {
-    await freeAsset(!asignation.value.items!.status, asignation.value.items!.id!)
+    await changeItemStatus(asignation.value.items!.status, asignation.value.items!.id!)
   }
 
   return {
@@ -65,6 +68,7 @@ export const useEmployeeStore = defineStore('employee', () => {
     employee,
     asignation,
     employeeList,
+    loadingDetail,
     fetchEmployees,
     fetchDetail,
     newEmployee,

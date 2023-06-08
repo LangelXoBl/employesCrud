@@ -20,6 +20,7 @@ export const getAsignation = async (id: number): Promise<IAsignation> => {
   try {
     const response = await conection(`Empleados/empleadosItemsById?id=${id}`)
     const json: IAsignation[] = await response.json()
+    if (json.length == 0) return baseAsignation
     return json[0]
   } catch (error) {
     console.log(error)
@@ -44,15 +45,16 @@ export const createEmployee = async (employe: IEmploye): Promise<boolean> => {
 export const createAsignation = async (asignation: IAsignation) => {
   try {
     const body = JSON.stringify(asignation)
-    console.log(body)
     const res = await conection('api/items/asignar', 'POST', body, headers)
-    const json = res.json()
+    const res2 = await changeItemStatus(false, asignation.itemId)
+    //const json = res.json()
+    console.log({ res, res2 })
   } catch (error) {
     console.log(error)
   }
 }
 
-export const freeAsset = async (status: boolean, id: number) => {
+export const changeItemStatus = async (status: boolean, id: number) => {
   try {
     const res = await conection(`api/items/StatusItem?status=${status}&id_item=${id}`, 'PUT')
     const json = await res.json()

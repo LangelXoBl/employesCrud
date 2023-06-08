@@ -4,7 +4,12 @@
       <span class="text-h5">Empleado</span>
     </v-card-title>
     <v-card-text>
-      <v-container>
+      <v-progress-circular
+        indeterminate
+        color="primary"
+        v-if="employeeStore.loadingDetail"
+      ></v-progress-circular>
+      <v-container v-else>
         <v-row>
           <v-col cols="12" sm="6" md="5">
             <v-text-field label="Nombre*" required v-model="employee.name"></v-text-field>
@@ -46,20 +51,55 @@
           <v-col cols="12">
             <v-text-field label="Email*" v-model="employee.email" required></v-text-field>
           </v-col>
-
-          <v-col cols="12"> <v-card-subtitle> Asignar activo </v-card-subtitle></v-col>
-          <v-col cols="12" sm="6" v-if="show(TypesForm.Edit)">
-            <v-autocomplete
-              v-model="asset"
-              :items="assetStore.assetList"
-              label="Activos"
-              item-title="nombreItem"
-              item-value="id"
-            ></v-autocomplete>
-          </v-col>
-          <v-col sm="6">
-            <v-text-field label="Devolucion*" type="date" v-model="date" required></v-text-field>
-          </v-col>
+          <template v-if="show(TypesForm.Edit) && employeeStore.asignation.itemId == 0">
+            <v-col cols="12"> <v-card-subtitle> Asignar activo </v-card-subtitle></v-col>
+            <v-col cols="12" sm="6">
+              <v-autocomplete
+                v-model="asset"
+                :items="assetStore.assetList"
+                label="Activos"
+                item-title="nombreItem"
+                item-value="id"
+              ></v-autocomplete>
+            </v-col>
+            <v-col sm="6">
+              <v-text-field label="Devolucion*" type="date" v-model="date" required></v-text-field>
+            </v-col>
+          </template>
+          <template v-if="employeeStore.asignation.id">
+            <v-table class="ma-10">
+              <template v-slot:top>
+                <h4>Item asignado</h4>
+              </template>
+              <thead>
+                <tr>
+                  <th v-for="header in headers" :key="header" class="text-left">
+                    {{ header }}
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{{ asignation.items!.nombreItem }}</td>
+                  <td>{{ asignation.items!.description }}</td>
+                  <td>
+                    <v-checkbox
+                      v-model="asignation.items!.status"
+                      @click="console.log(asignation.items!.id)"
+                    ></v-checkbox>
+                  </td>
+                  <!-- <td>
+          <v-btn
+            color="primary"
+            icon="mdi-eye"
+            size="small"
+            @click="assetStore.modalCreate = true"
+          ></v-btn>
+        </td> -->
+                </tr>
+              </tbody>
+            </v-table>
+          </template>
         </v-row>
         <!-- <template v-if="employeeStore.register.id == 0"> -->
         <!-- <template v-if="props.use == 'edit'">
@@ -86,7 +126,6 @@
           </v-row>
         </template>
         <p v-else>sin activos asignados</p> -->
-        <p>{{ employeeStore.formEmployee.type }}</p>
       </v-container>
       <small>*indicates required field</small>
     </v-card-text>
@@ -130,7 +169,7 @@ let asignation = employeeStore.asignation
 const asset: Ref<number | null> = ref(null)
 const date = ref('')
 //const asignation:Ref<IAsignation|undefined > = ref()
-
+const headers = ['Nombre', 'Descricion', 'Liberar']
 // methods
 
 const create = async () => {
@@ -139,6 +178,11 @@ const create = async () => {
   employeeStore.closeForm()
 }
 const edit = async () => {
+  if (asignation.id && asignation.items?.status) {
+    employeeStore.liberarAsset()
+    employeeStore.closeForm()
+    return
+  }
   if (asset.value && asset.value > 0)
     employeeStore.asignation = {
       itemId: asset.value,
