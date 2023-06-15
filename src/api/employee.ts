@@ -1,5 +1,5 @@
 import type { IEmploye } from '@/models/IEmploye'
-import conection from './api'
+import conection, { conectionWCF } from './api'
 import { baseAsignation, type IAsignation } from '@/models/IAsignation'
 
 const headers = new Headers()
@@ -7,9 +7,22 @@ headers.append('Content-Type', 'application/json')
 
 export const getListEmployees = async (): Promise<IEmploye[]> => {
   try {
-    const response = await conection('Empleados')
-    const json: IEmploye[] = await response.json()
-    return json
+    const json = await conectionWCF('getEmployes', 'GET')
+    const data: IEmploye[] = json.map((element: any): IEmploye => {
+      return {
+        id: element.Id,
+        name: element.Name,
+        lastname: element.Lastname,
+        curp: element.CURP,
+        rfc: element.RFC,
+        email: element.email,
+        fechaNacimiento: element.FechaNacimiento,
+        numero_empleado: element.numero_empleado
+      }
+    })
+    // const response = await conection('api/persona')
+    // const json: IEmploye[] = await response.json()
+    return data
   } catch (error) {
     console.log(error)
     return []
@@ -18,7 +31,7 @@ export const getListEmployees = async (): Promise<IEmploye[]> => {
 
 export const getAsignation = async (id: number): Promise<IAsignation> => {
   try {
-    const response = await conection(`Empleados/empleadosItemsById?id=${id}`)
+    const response = await conection(`api/persona/itemsById?id=${id}`)
     const json: IAsignation[] = await response.json()
     if (json.length == 0) return baseAsignation
     return json[0]
@@ -31,7 +44,7 @@ export const getAsignation = async (id: number): Promise<IAsignation> => {
 export const createEmployee = async (employe: IEmploye): Promise<boolean> => {
   try {
     const body = JSON.stringify(employe)
-    const response = await conection('Empleados/create', 'POST', body, headers)
+    const response = await conection('api/persona/create', 'POST', body, headers)
     //if(response.headers.get("Content-Type") === "text/plain; charset=utf-8")
     console.log(response.status)
     if (response.status > 200 && response.status < 300) return true
