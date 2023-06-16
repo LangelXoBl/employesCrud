@@ -1,28 +1,28 @@
 import type { IEmploye } from '@/models/IEmploye'
 import conection, { conectionWCF } from './api'
-import { baseAsignation, type IAsignation } from '@/models/IAsignation'
+import { baseAsignation, type IAsignation, type IDetailEmploye } from '@/models/IAsignation'
 
 const headers = new Headers()
 headers.append('Content-Type', 'application/json')
 
 export const getListEmployees = async (): Promise<IEmploye[]> => {
   try {
-    const json = await conectionWCF('getEmployes', 'GET')
-    const data: IEmploye[] = json.map((element: any): IEmploye => {
-      return {
-        id: element.Id,
-        name: element.Name,
-        lastname: element.Lastname,
-        curp: element.CURP,
-        rfc: element.RFC,
-        email: element.email,
-        fechaNacimiento: element.FechaNacimiento,
-        numero_empleado: element.numero_empleado
-      }
-    })
-    // const response = await conection('api/persona')
-    // const json: IEmploye[] = await response.json()
-    return data
+    const json: IEmploye[] = await conectionWCF('getEmployes', 'GET')
+    // const data: IEmploye[] = json.map((element: any): IEmploye => {
+    //   return {
+    //     id: element.Id,
+    //     name: element.Name,
+    //     lastname: element.Lastname,
+    //     curp: element.CURP,
+    //     rfc: element.RFC,
+    //     email: element.email,
+    //     fechaNacimiento: element.FechaNacimiento,
+    //     numero_empleado: element.numero_empleado
+    //   }
+    // })
+    // // const response = await conection('api/persona')
+    // // const json: IEmploye[] = await response.json()
+    return json
   } catch (error) {
     console.log(error)
     return []
@@ -41,13 +41,26 @@ export const getAsignation = async (id: number): Promise<IAsignation> => {
   }
 }
 
+export const getDetailEmploye = async (id: number): Promise<IDetailEmploye | boolean> => {
+  try {
+    const data = await conectionWCF('getEmpleadoById', 'POST', { id })
+    console.log(data)
+    if (data === '') return false
+
+    return data as IDetailEmploye
+  } catch (error) {
+    console.log(error)
+    return false
+  }
+}
+
 export const createEmployee = async (employe: IEmploye): Promise<boolean> => {
   try {
-    const body = JSON.stringify(employe)
-    const response = await conection('api/persona/create', 'POST', body, headers)
+    const response = await conectionWCF('PostNewEmployee', 'POST', employe)
+    //const body = JSON.stringify(employe)
+    //const response = await conection('api/persona/create', 'POST', body, headers)
     //if(response.headers.get("Content-Type") === "text/plain; charset=utf-8")
-    console.log(response.status)
-    if (response.status > 200 && response.status < 300) return true
+    console.log(response)
     return false
   } catch (error) {
     console.log('error al crear', error)

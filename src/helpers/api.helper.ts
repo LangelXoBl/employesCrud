@@ -37,7 +37,11 @@ export function xmlTojson(xml: string, tagName: string) {
   const parser = new DOMParser()
   const xmlDOM = parser.parseFromString(xml, 'application/xml')
   const data = xmlDOM.getElementsByTagName(`${tagName}Result`)[0].childNodes[0].nodeValue
-  return JSON.parse(data || '')
+  try {
+    return JSON.parse(data || '')
+  } catch (error) {
+    return data
+  }
 }
 
 export default function makeRequestXML(

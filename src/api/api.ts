@@ -26,13 +26,12 @@ export async function conectionWCF(
     const requestOptions = makeRequestXML(tagName, method, params)
     const response = await fetch(baseWCF, requestOptions)
     const xml = await response.text()
-    console.log('response', xml)
     const json = xmlTojson(xml, tagName)
-    console.log('json res', json)
+    console.log('res xml', json)
     return json
   } catch (error) {
     console.log(error)
-    return JSON.parse('')
+    return ''
   }
 }
 

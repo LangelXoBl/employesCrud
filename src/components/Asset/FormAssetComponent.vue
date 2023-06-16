@@ -20,20 +20,25 @@
               hint="example of helper text only on focus"
             ></v-text-field>
           </v-col>
+          <v-col>
+            <v-switch label="Status" v-model="assetStore.asset.status"></v-switch>
+          </v-col>
         </v-row>
       </v-container>
       <small>*indicates required field</small>
     </v-card-text>
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-btn color="blue-darken-1" variant="text" @click="assetStore.modalCreate = false">
-        Close
+      <v-btn color="blue-darken-1" variant="text" @click="close"> Close </v-btn>
+      <v-btn v-if="assetStore.typeModal == 'create'" color="green" variant="text" @click="create">
+        Save
       </v-btn>
-      <v-btn color="blue-darken-1" variant="text" @click="create"> Save </v-btn>
+      <v-btn v-else color="blue-darken-1" variant="text" @click="edit"> Editar </v-btn>
     </v-card-actions>
   </v-card>
 </template>
 <script setup lang="ts">
+import { baseAsset } from '@/models/IAsset'
 import { useAssetStore } from '@/stores/asset'
 
 const assetStore = useAssetStore()
@@ -41,6 +46,16 @@ const assetStore = useAssetStore()
 const create = () => {
   assetStore.asset.id = 0
   assetStore.newAsset()
+  assetStore.modalCreate = false
+}
+
+const close = () => {
+  assetStore.asset = baseAsset
+  assetStore.modalCreate = false
+}
+
+const edit = () => {
+  assetStore.editAsset()
   assetStore.modalCreate = false
 }
 </script>

@@ -18,3 +18,18 @@ export const baseAsignation: IAsignation = {
   dia_asignacion: new Date(),
   dia_entrega: new Date()
 }
+
+export interface IDetailEmploye {
+  persona: IEmploye
+  itemEmpleadoDetail?: IAsignationV2[]
+}
+
+export interface IAsignationV2 {
+  id?: number
+  id_asignacion: number
+  nombre: string
+  descripcion: string
+  fechaAsignacion: Date
+  fechaEntrega: Date
+  fechaLiberacion?: Date
+}

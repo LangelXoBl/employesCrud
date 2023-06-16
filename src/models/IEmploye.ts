@@ -7,9 +7,11 @@ export interface IEmploye {
   email: string
   numero_empleado?: number
   fechaNacimiento: string
+  password?: string
 }
 
 export const baseEmployee: IEmploye = {
+  id: 0,
   name: '',
   lastname: '',
   curp: '',

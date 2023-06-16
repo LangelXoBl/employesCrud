@@ -13,9 +13,10 @@ import {
   createEmployee,
   changeItemStatus,
   getAsignation,
-  getListEmployees
+  getListEmployees,
+  getDetailEmploye
 } from '@/api/employee'
-import { baseAsignation, type IAsignation } from '@/models/IAsignation'
+import { baseAsignation, type IAsignation, type IDetailEmploye } from '@/models/IAsignation'
 
 export const useEmployeeStore = defineStore('employee', () => {
   //  State
@@ -24,6 +25,7 @@ export const useEmployeeStore = defineStore('employee', () => {
   const employeeList: Ref<IEmploye[]> = ref([])
   const formEmployee: Ref<IForm> = ref(baseFormEmployee)
   const loadingDetail: Ref<boolean> = ref(false)
+  const detail: Ref<IDetailEmploye> = ref({ persona: baseEmployee })
 
   // getters
 
@@ -44,7 +46,10 @@ export const useEmployeeStore = defineStore('employee', () => {
 
   async function fetchDetail() {
     loadingDetail.value = true
-    asignation.value = await getAsignation(employee.value.id!)
+    const res = await getDetailEmploye(employee.value.id!)
+    console.log('res detail', res)
+    if (typeof res != 'boolean') detail.value = res
+    // asignation.value = await getAsignation(employee.value.id!)
     loadingDetail.value = false
   }
 
@@ -66,6 +71,7 @@ export const useEmployeeStore = defineStore('employee', () => {
   return {
     formEmployee,
     employee,
+    detail,
     asignation,
     employeeList,
     loadingDetail,

@@ -51,7 +51,10 @@
           <v-col cols="12">
             <v-text-field label="Email*" v-model="employee.email" required></v-text-field>
           </v-col>
-          <template v-if="show(TypesForm.Edit) && employeeStore.asignation.itemId == 0">
+          <v-col cols="12">
+            <v-text-field label="Contraseña*" v-model="employee.password" required></v-text-field>
+          </v-col>
+          <template v-if="show(TypesForm.Edit) && !employeeStore.detail.persona.id">
             <v-col cols="12"> <v-card-subtitle> Asignar activo </v-card-subtitle></v-col>
             <v-col cols="12" sm="6">
               <v-autocomplete
@@ -66,7 +69,7 @@
               <v-text-field label="Devolucion*" type="date" v-model="date" required></v-text-field>
             </v-col>
           </template>
-          <template v-if="employeeStore.asignation.id">
+          <template v-if="employeeStore.detail.itemEmpleadoDetail">
             <v-table class="ma-10">
               <template v-slot:top>
                 <h4>Item asignado</h4>
@@ -79,15 +82,15 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>{{ asignation.items!.nombreItem }}</td>
-                  <td>{{ asignation.items!.description }}</td>
-                  <td>
+                <tr v-for="item in employeeStore.detail.itemEmpleadoDetail" :key="item.id">
+                  <td>{{ item.nombre }}</td>
+                  <td>{{ item.descripcion }}</td>
+                  <!-- <td>
                     <v-checkbox
                       v-model="asignation.items!.status"
                       @click="console.log(asignation.items!.id)"
                     ></v-checkbox>
-                  </td>
+                  </td> -->
                   <!-- <td>
           <v-btn
             color="primary"
